@@ -7,7 +7,7 @@
 
 program TruckInOut; 
  
-#include TruckInOut.iri 
+#include outbound.iri 
 
   -- Constants and aliases definitions 
   g_csProgName          : constant string  := "TruckInOut"; --Program Name 

@@ -7,7 +7,7 @@
 
 program TruckInOut; 
  
-#include outbound.iri 
+#include TruckInOut.iri 
 
   -- Constants and aliases definitions 
   g_csProgName          : constant string  := "TruckInOut"; --Program Name 
@@ -181,14 +181,14 @@ program TruckInOut;
   procedure TurnOnGreenLight;  
   begin 
 
-    if g_iTrafficLights = 1 then
-      Print(Auxfmt20);
-      SetDigout(g_ciDigSlot, g_ciRedLight, g_ciDigOutOff);
-      SetDigout(g_ciDigSlot, g_ciGreenLight, g_ciDigOutOn); 
-      g_sLightStatus := "GREEN";
-      SetImageWidgetPath(btnStop, "local://24.png");
-      SetImageWidgetPath(btnGo, "local://23.png");
-    end if;
+    --if g_iTrafficLights = 1 then
+    Print(Auxfmt20);
+    SetDigout(g_ciDigSlot, g_ciRedLight, g_ciDigOutOff);
+    SetDigout(g_ciDigSlot, g_ciGreenLight, g_ciDigOutOn); 
+    g_sLightStatus := "GREEN";
+    SetImageWidgetPath(btnStop, "local://24.png");
+    SetImageWidgetPath(btnGo, "local://23.png");
+    --end if;
 
   end;
 
@@ -207,14 +207,14 @@ program TruckInOut;
  procedure TurnOnRedLight; 
  begin
 
-    if g_iTrafficLights = 1 then
-      Print(Auxfmt19);        
-      SetDigout(g_ciDigSlot, g_ciGreenLight, g_ciDigOutOff);
-      SetDigout(g_ciDigSlot, g_ciRedLight, g_ciDigOutOn);   
-      g_sLightStatus := "RED";   
-      SetImageWidgetPath(btnstop, "local://25.png");
-      SetImageWidgetPath(btnGo, "local://22.png");
-    end if;
+    --if g_iTrafficLights = 1 then
+    Print(Auxfmt19);        
+    SetDigout(g_ciDigSlot, g_ciGreenLight, g_ciDigOutOff);
+    SetDigout(g_ciDigSlot, g_ciRedLight, g_ciDigOutOn);   
+    g_sLightStatus := "RED";   
+    SetImageWidgetPath(btnstop, "local://25.png");
+    SetImageWidgetPath(btnGo, "local://22.png");
+    --end if;
 		
  end;  
 
@@ -2051,15 +2051,15 @@ program TruckInOut;
       g_iDelete := 0;  
 
     elsif g_iWidget = btnStop or g_iWidget = BtnGo then
-      if g_iTrafficLights = 0 then 
-        if g_sLightStatus = "RED" then 
-          TurnOnGreenLightManually;
-        else
-          TurnOnRedLightManually;
-        end if;   
+      --if g_iTrafficLights = 0 then 
+      if g_sLightStatus = "RED" then 
+        TurnOnGreenLightManually;
       else
-        DisplayStatus("Lights are in Auto Mode");
-      end if; 
+        TurnOnRedLightManually;
+      end if;   
+      --else
+        --DisplayStatus("Lights are in Auto Mode");
+      --end if; 
     
     elsif g_iWidget = btnSetup then
       if EntryMode = NoMode then  

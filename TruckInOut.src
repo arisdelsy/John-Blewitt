@@ -105,6 +105,7 @@ program TruckInOut;
   g_iWidgetNum : integer;  
   g_sLightStatus : string;    
   g_rThresholdWeight : stored real;
+  g_rThresholdLowerWeight : stored real; --Aris
   g_iTicketNbr : stored integer;
   g_iTrafficLights : stored integer;
   g_iTotalScale : integer;
@@ -965,11 +966,13 @@ program TruckInOut;
       end if;      
 
     elsif EntryMode = SetupThresholdWeightMode then
-
+      --setpoint value that 'target value'
       if isValid(sTemp, "r", 0) then 
 				g_rThresholdWeight  :=  StringToReal(sTemp);
-        SetspValue(1, g_rThresholdWeight);
+        SetspValue(1, g_rThresholdWeight); --SetspValue is 
         SetSpvalue(2, g_rThresholdWeight);
+        SetSpValue(3, g_rThresholdLowerWeight);
+        SetSpValue(4, g_rThresholdLowerWeight);
         EntryMode := Setup1Mode;
       end if;  
 
@@ -1327,6 +1330,8 @@ program TruckInOut;
     HowmanyScales;
     Setspvalue(1, g_rThresholdWeight); 
     setspvalue(2, g_rThresholdWeight);
+    setspvalue(3, g_rThresholdLowerWeight);
+    setspvalue(4, g_rThresholdLowerWeight);
     SetupStartTimer(1, 500, TimerOneShot);     
     SelectScreen(g_ciMain); 
     EntryMode := NoMode; 
@@ -1634,13 +1639,16 @@ program TruckInOut;
 
   end;
 
+
+
   handler SP2Trip;
   begin
-
     DisableSP(2);
     EnableSP(1);
     ClosePrompt;
-    TurnOnGreenLight;
+    --Timer entered here to wait 5 seconds before turning the light green.
+    SetupStartTimer(1, 500, TimerOneShot);    
+    --TurnOnGreenLight;
     UnlockMajorKeys; 
     EntryMode := NoMode;  
     selectscreen(g_cimain); 
@@ -1658,7 +1666,6 @@ program TruckInOut;
     g_iReprint := 1;
 
   end;
-
 
   handler Timer25Trip;  -- Wait for Standstill check
     iMotion : integer;   
@@ -2090,6 +2097,7 @@ begin
     g_iTruckExit := 1;   
     g_iTrafficLights := 1;
     g_rThresholdWeight := 5000;
+    g_rThresholdLowerWeight := 20;
     g_iTicketNbr := 1;
   end if;    
   

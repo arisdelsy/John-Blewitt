@@ -1644,11 +1644,11 @@ program TruckInOut;
   handler SP2Trip;
   begin
     
-    --SetupStartTimer(10, 500);
+    SetupStartTimer(1, 500, TimerOneShot);
     DisableSP(2);
     EnableSP(1);
     ClosePrompt;
-    TurnOnGreenLight;
+    --TurnOnGreenLight;
     UnlockMajorKeys; 
     EntryMode := NoMode;  
     selectscreen(g_cimain); 

@@ -1643,11 +1643,11 @@ program TruckInOut;
 
   handler SP2Trip;
   begin
-    
-    SetupStartTimer(1, 500, TimerOneShot);
     DisableSP(2);
     EnableSP(1);
     ClosePrompt;
+    --Timer entered here to wait 5 seconds before turning the light green.
+    SetupStartTimer(1, 500, TimerOneShot);    
     --TurnOnGreenLight;
     UnlockMajorKeys; 
     EntryMode := NoMode;  
@@ -1666,34 +1666,6 @@ program TruckInOut;
     g_iReprint := 1;
 
   end;
-
-  --Aris New Handler for New Threshold 
-  handler SP3Trip;
-  begin
-
-    DisableSP(3);
-    EnableSP(4);
-    ClosePrompt;
-    TurnOnGreenLight;
-    UnlockMajorKeys; 
-    EntryMode := NoMode;  
-    selectscreen(g_cimain); 
-    SetWidgetVisibility(btnSetup, Von);
-    SetWidgetVisibility(btnStop, Von);
-    SetWidgetVisibility(btnGo, Von);
-    DisplayStatus(Blank); 
-    StopTimer(25);             
-    g_sProductID := Blank;
-    g_sProductName := Blank;
-    g_sProductConversionUnits := Blank;
-    g_rProductMultiplier := 0;
-    g_sCustomerID := Blank;
-    g_sCustomerName := Blank;   
-    g_iReprint := 1;
-
-  end;
-
-
 
   handler Timer25Trip;  -- Wait for Standstill check
     iMotion : integer;   

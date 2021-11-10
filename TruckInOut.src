@@ -105,6 +105,7 @@ program TruckInOut;
   g_iWidgetNum : integer;  
   g_sLightStatus : string;    
   g_rThresholdWeight : stored real;
+  g_rThresholdLowerWeight : stored real; --Aris
   g_iTicketNbr : stored integer;
   g_iTrafficLights : stored integer;
   g_iTotalScale : integer;
@@ -965,11 +966,13 @@ program TruckInOut;
       end if;      
 
     elsif EntryMode = SetupThresholdWeightMode then
-
+      --setpoint value that 'target value'
       if isValid(sTemp, "r", 0) then 
 				g_rThresholdWeight  :=  StringToReal(sTemp);
-        SetspValue(1, g_rThresholdWeight);
+        SetspValue(1, g_rThresholdWeight); --SetspValue is 
         SetSpvalue(2, g_rThresholdWeight);
+        SetSpValue(3, g_rThresholdLowerWeight);
+        SetSpValue(4, g_rThresholdLowerWeight);
         EntryMode := Setup1Mode;
       end if;  
 
@@ -1327,6 +1330,8 @@ program TruckInOut;
     HowmanyScales;
     Setspvalue(1, g_rThresholdWeight); 
     setspvalue(2, g_rThresholdWeight);
+    setspvalue(3, g_rThresholdLowerWeight);
+    setspvalue(4, g_rThresholdLowerWeight);
     SetupStartTimer(1, 500, TimerOneShot);     
     SelectScreen(g_ciMain); 
     EntryMode := NoMode; 
@@ -1634,9 +1639,12 @@ program TruckInOut;
 
   end;
 
+
+
   handler SP2Trip;
   begin
-
+    
+    --SetupStartTimer(10, 500);
     DisableSP(2);
     EnableSP(1);
     ClosePrompt;
@@ -1658,6 +1666,33 @@ program TruckInOut;
     g_iReprint := 1;
 
   end;
+
+  --Aris New Handler for New Threshold 
+  handler SP3Trip;
+  begin
+
+    DisableSP(3);
+    EnableSP(4);
+    ClosePrompt;
+    TurnOnGreenLight;
+    UnlockMajorKeys; 
+    EntryMode := NoMode;  
+    selectscreen(g_cimain); 
+    SetWidgetVisibility(btnSetup, Von);
+    SetWidgetVisibility(btnStop, Von);
+    SetWidgetVisibility(btnGo, Von);
+    DisplayStatus(Blank); 
+    StopTimer(25);             
+    g_sProductID := Blank;
+    g_sProductName := Blank;
+    g_sProductConversionUnits := Blank;
+    g_rProductMultiplier := 0;
+    g_sCustomerID := Blank;
+    g_sCustomerName := Blank;   
+    g_iReprint := 1;
+
+  end;
+
 
 
   handler Timer25Trip;  -- Wait for Standstill check
@@ -2090,6 +2125,7 @@ begin
     g_iTruckExit := 1;   
     g_iTrafficLights := 1;
     g_rThresholdWeight := 5000;
+    g_rThresholdLowerWeight := 20;
     g_iTicketNbr := 1;
   end if;    
   

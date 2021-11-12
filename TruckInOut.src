@@ -144,24 +144,29 @@ program TruckInOut;
   TransDB : TransDatabase;
   ReportDB : ReportDatabase;
 
+ 
+
   procedure SetupStartTimer(iTimer : integer; iDuration : integer; itmMode : TimerMode);  -- Setup a Timer and Start                                
   begin
-  
+   -- the functions that are essential to set up and starting a timer. 
+   -- because we lit we have bid daddy function SetupStartTimer(x,y,z)
     SetTimer(iTimer, iDuration);
     SetTimerMode(iTimer, itmMode);
     StartTimer(iTimer);
     
   end;    
 
+
   procedure WaitSS(iScale : integer);
   begin
-    
+    -- wait for stand still (it means waits for the scale to stabalize before capturing the weight value) 
     g_iWaitSSScale := iScale;
     SetupStartTimer(25, 10, TimerContinuous);
   
   end;  
 
   function Locate( input_string : string; match_string : string ) : integer;
+    -- no idea... we have yet to use it 
     position     : integer;
     end_position : integer;
   begin
@@ -180,6 +185,7 @@ program TruckInOut;
   end;
 
   procedure TurnOnGreenLight;  
+    -- turns on the green light this is for auto mode (we can tell by the if statement)
   begin 
 
     if g_iTrafficLights = 1 then
@@ -195,7 +201,7 @@ program TruckInOut;
 
   procedure TurnOnGreenLightManually;  
   begin 
-
+      -- turns on the green light this is for manually pressing buttons
       Print(Auxfmt20);
       SetDigout(g_ciDigSlot, g_ciRedLight, g_ciDigOutOff);
       SetDigout(g_ciDigSlot, g_ciGreenLight, g_ciDigOutOn); 
@@ -207,7 +213,7 @@ program TruckInOut;
 
  procedure TurnOnRedLight; 
  begin
-
+    -- turn on red light in auto mode ( we can tell by the added if statement)
     if g_iTrafficLights = 1 then
       Print(Auxfmt19);        
       SetDigout(g_ciDigSlot, g_ciGreenLight, g_ciDigOutOff);
@@ -221,7 +227,7 @@ program TruckInOut;
 
  procedure TurnOnRedLightManually; 
  begin
-
+    -- turn on red light when pressing buttons manually
     Print(Auxfmt19);        
     SetDigout(g_ciDigSlot, g_ciGreenLight, g_ciDigOutOff);
     SetDigout(g_ciDigSlot, g_ciRedLight, g_ciDigOutOn);   
@@ -233,6 +239,7 @@ program TruckInOut;
 
 
   procedure Delete25Percent;  
+    -- deletes 25% of the database
     i : integer;  
     dbTransSave : TransDatabase;   
   begin
@@ -263,7 +270,7 @@ program TruckInOut;
 
   procedure UnLockMajorKeys;  -- UnLocks ZERO, GROSS/NET, TARE, UNITS and PRINT key
   begin
-  
+    -- unlock these 
     UnlockKey(GrossNetKey);
     UnlockKey(TareKey);
     UnlockKey(UnitsKey);
@@ -273,7 +280,7 @@ program TruckInOut;
 
   procedure GetInboundWgtBasedUnits;
   begin
-
+    
     GetUnits(g_iTotalScale, g_uUnits);
     if g_uUnits = Primary then
       g_rInboundWgt := InboundDB.InPWgt;

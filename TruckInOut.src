@@ -2065,15 +2065,15 @@ program TruckInOut;
       g_iDelete := 0;  
 
     elsif g_iWidget = btnStop or g_iWidget = BtnGo then
-      if g_iTrafficLights = 0 then 
-        if g_sLightStatus = "RED" then 
-          TurnOnGreenLightManually;
-        else
-          TurnOnRedLightManually;
-        end if;   
+      --if g_iTrafficLights = 0 then 
+      if g_sLightStatus = "RED" then 
+        TurnOnGreenLightManually;
       else
-        DisplayStatus("Lights are in Auto Mode");
-      end if; 
+        TurnOnRedLightManually;
+      end if;   
+    --else
+     -- DisplayStatus("Lights are in Auto Mode");
+      --end if; 
     
     elsif g_iWidget = btnSetup then
       if EntryMode = NoMode then  

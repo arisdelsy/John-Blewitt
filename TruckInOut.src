@@ -1608,22 +1608,32 @@ program TruckInOut;
   
     TurnOnGreenLight;
   
-  end;   
+  end; 
 
-  handler SP1Trip;
+  handler Timer2Trip;
+  begin
+  
+    TurnOnRedLight;
+  
+  end;    
+
+
+  handler SP1Trip; --after weight reaches 5000lb these processes occur
   begin
 
-    DisableSP(1);
-    EnableSP(2);
-    DisplayStatus(Blank);
-    SelectScreen(g_ciMain);	
-    TurnOnRedLight;
-    SelectScale(g_iTotalScale);
-    EntryMode := WeighMode;  
-    SetWidgetVisibility(btnSetup, VOff);     
+    DisableSP(1); -- we are disabling setpoint 1 because we have entered Setpoint one 
+    EnableSP(2); -- we are enabling setpoint 2 so its ready 
+    DisplayStatus(Blank); -- message bar will not display anything
+    SelectScreen(g_ciMain);	 -- take you back to main screen 
+    -- in theory add timer here -- Aris
+    SetupStartTimer(2, 500, TimerOneShot); 
+    TurnOnRedLight; -- automatically turn on red light because its passed SP 1 
+    SelectScale(g_iTotalScale); -- selects total scale 
+    EntryMode := WeighMode;  --entrymode is weighmode 
+    SetWidgetVisibility(btnSetup, VOff); --setting up widget 'btnSetup' to Off    
 
     g_iNbrofProducts := 0;
-    if ProductDB.GetFirst = SysOk then
+    if ProductDB.GetFirst = SysOk then 
       g_sProductID := ProductDB.Id;
       g_sProductName := ProductDB.Name;
       g_sProductConversionUnits := ProductDB.CUnits;
